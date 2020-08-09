@@ -11,7 +11,6 @@ app = FastAPI()
 #             shouldn't be used in production
 
 # demo user object
-
 demo_user = {
     "username": "demo",
     "display_name": "Demo User", 
@@ -19,79 +18,68 @@ demo_user = {
     "messenger_url" : "https://m.me/demo-usr-dont-click"
 }
 
-demo_recommendations = []
-
-for i in range(0, 10):
-    demo_recommendations.append({
-        "username": "demo_" + str(i),
-        "display_name": "Demo User " + str(i), 
-        "img_url": "https://cdn.mos.cms.futurecdn.net/VSy6kJDNq2pSXsCzb6cvYF.jpg",
-        "messenger_url" : "https://m.me/demo-" + str(i) + "-usr-dont-click",
-        "similarity_match": (i + 20 * i) % 100 
-    })
-
-
-demo_tracks = [
-    {
-    "title": "Starboy",
-    "artist": "The Weeknd"
-    },{
-    "title": "Shape of You",
-    "artist": "Ed Sheeran"
-    },{
-    "title": "DNA.",
-    "artist": "Kendrick Lamar"
-    },{
-    "title": "Blinding Lights",
-    "artist": "The Weeknd"
-    },{
-    "title": "Dance Monkey",
-    "artist": "Tones & I"
-    },{
-    "title": "Roses",
-    "artist": "Saint JHN"
-    },{
-    "title": "Don't start now",
-    "artist": "Dua Lipa"
-    },{
-    "title": "Ride It",
-    "artist": "Regard"
-    },{
-    "title": "3 Nights",
-    "artist": "Dominic Fike"
-    },{
-    "title": "Good Day",
-    "artist": "Broiler"
-    },{
-    "title": "Crime",
-    "artist": "Vax"
-    },{
-    "title": "Smart Love",
-    "artist": "Drax Project"
-    },{
-    "title": "Beach House",
-    "artist": "The Chainsmokers"
-    },{
-    "title": "Goofy",
-    "artist": "MishCatt"
-    },{
-    "title": "Lovefool",
-    "artist": "twocolors"
-    },{
-    "title": "Just a Litle Longer",
-    "artist": "SHY Martin"
-    },{
-    "title": "Lost",
-    "artist": "Clean Bandit"
-    },{
-    "title": "REMEDY",
-    "artist": "Alesso"
-    },{
-    "title": "Late Night",
-    "artist": "Shakewell"
-    },{
-    "title": "Tales From Tha Guttah",
-    "artist": "Ramirez"
+# demo user recommendations
+# data provided by https://www.mockaroo.com/
+demo_recommendations = [{
+    "username": "ecapner0",
+    "display_name": "Ernest Capner",
+    "img_url": "http://dummyimage.com/188x249.png/ff4444/ffffff",
+    "messenger_url": "https://m.me/demo-usr-ecapner0",
+    "similarity_match": 61
+    }, {
+    "username": "feagan1",
+    "display_name": "Florina Eagan",
+    "img_url": "http://dummyimage.com/145x166.png/ff4444/ffffff",
+    "messenger_url": "https://m.me/demo-usr-feagan1",
+    "similarity_match": 81
+    }, {
+    "username": "tgarth2",
+    "display_name": "Travis Garth",
+    "img_url": "http://dummyimage.com/179x231.bmp/ff4444/ffffff",
+    "messenger_url": "https://m.me/demo-usr-tgarth2",
+    "similarity_match": 77
+    }, {
+    "username": "sgrimsditch3",
+    "display_name": "Salmon Grimsditch",
+    "img_url": "http://dummyimage.com/171x137.jpg/ff4444/ffffff",
+    "messenger_url": "https://m.me/demo-usr-sgrimsditch3",
+    "similarity_match": 100
+    }, {
+    "username": "cjerdein4",
+    "display_name": "Clare Jerdein",
+    "img_url": "http://dummyimage.com/110x247.png/5fa2dd/ffffff",
+    "messenger_url": "https://m.me/demo-usr-cjerdein4",
+    "similarity_match": 97
+    }, {
+    "username": "sluckwell5",
+    "display_name": "Sibyl Luckwell",
+    "img_url": "http://dummyimage.com/174x192.png/ff4444/ffffff",
+    "messenger_url": "https://m.me/demo-usr-sluckwell5",
+    "similarity_match": 88
+    }, {
+    "username": "ewarkup6",
+    "display_name": "Ediva Warkup",
+    "img_url": "http://dummyimage.com/177x167.png/5fa2dd/ffffff",
+    "messenger_url": "https://m.me/demo-usr-ewarkup6",
+    "similarity_match": 100
+    }, {
+    "username": "niacopini7",
+    "display_name": "Nichole Iacopini",
+    "img_url": "http://dummyimage.com/144x186.png/cc0000/ffffff",
+    "messenger_url": "https://m.me/demo-usr-niacopini7",
+    "similarity_match": 90
+    }, {
+    "username": "hbenyan8",
+    "display_name": "Hendrik Benyan",
+    "img_url": "http://dummyimage.com/194x109.jpg/ff4444/ffffff",
+    "messenger_url": "https://m.me/demo-usr-hbenyan8",
+    "similarity_match": 62
+    }, {
+    "username": "ctown9",
+    "display_name": "Concettina Town",
+    "img_url": "http://dummyimage.com/206x210.bmp/ff4444/ffffff",
+    "messenger_url": "https://m.me/demo-usr-ctown9",
+    "similarity_match": 76
     }
 ]
 
@@ -134,6 +122,7 @@ demo_library = [
     "artist": "Ramirez"
     }
 ]
+
 # root endpoint
 @app.get("/")
 async def default_endpoint():
