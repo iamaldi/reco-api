@@ -5,7 +5,12 @@ import pylast
 import models
 import os
 
-app = FastAPI()
+app = FastAPI(
+    title = "Reco Demo FastAPI Service",
+    description = "WARNING! This is a demo API service for the Reco android application. This service is NOT recommended for production.",
+    version = "v0.1.0-demo",
+    docs_url = None
+)
 
 # DISCLAIMER! This API is a test/demo data provider and 
 #             shouldn't be used in production
@@ -126,7 +131,7 @@ demo_library = [
 # root endpoint
 @app.get("/")
 async def default_endpoint():
-    return "RECO Demo Backend API Service!"
+    return "Reco demo backend API service!"
 
 # users endpoints
 @app.post("/users/register", response_model = models.UserProfileModel)
