@@ -139,7 +139,7 @@ async def register_user(user: models.UserRegisterModel):
     return {
         "username": user.username,
         "display_name": user.display_name,
-        "img_url": user.img_url,
+        "img_url": "https://cdn.mos.cms.futurecdn.net/VSy6kJDNq2pSXsCzb6cvYF.jpg",
         "messenger_url" : user.messenger_url
     }
 
