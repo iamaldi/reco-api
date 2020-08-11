@@ -152,7 +152,7 @@ async def update_user_profile(user: models.UserProfileUpdateModel):
     "display_name": user.display_name,
     "img_url": user.img_url,
     "messenger_url" : user.messenger_url
-}
+    }
 
 @app.delete("/users/me")
 async def delete_user_profile():
