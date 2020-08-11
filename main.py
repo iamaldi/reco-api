@@ -136,7 +136,12 @@ async def default_endpoint():
 # users endpoints
 @app.post("/users/register", response_model = models.UserProfileModel)
 async def register_user(user: models.UserRegisterModel):
-    return demo_user
+    return {
+        "username": user.username,
+        "display_name": user.display_name,
+        "img_url": user.img_url,
+        "messenger_url" : user.messenger_url
+    }
 
 @app.post("/users/login", response_model = models.UserProfileModel)
 async def login_user(user: models.UserLoginModel):
