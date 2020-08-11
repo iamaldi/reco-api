@@ -149,7 +149,7 @@ async def get_user_profile():
 @app.put("/users/me", response_model = models.UserProfileModel)
 async def update_user_profile(user: models.UserProfileUpdateModel):
     return {
-        "username": "demo"
+        "username": "demo",
         "display_name": user.display_name,
         "img_url": user.img_url,
         "messenger_url" : user.messenger_url
