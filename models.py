@@ -22,11 +22,6 @@ class UserProfileModel(BaseModel):
 class RecommendedUserModel(UserProfileModel):
     similarity_match: int
 
-class UserProfileUpdateModel(BaseModel):
-    display_name: str
-    img_url: Optional[str] = None
-    messenger_url: Optional[str] = None
-
 class UserPasswordChangeModel(BaseModel):
     old_password: Optional[str] = None
     new_password: Optional[str] = None
