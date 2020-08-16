@@ -9,8 +9,7 @@ import json
 app = FastAPI(
     title = "Reco Demo FastAPI Service",
     description = "WARNING! This is a demo API service for the Reco android application. This service is NOT recommended for production.",
-    version = "v0.1.0-demo",
-    docs_url = None
+    version = "v0.1.0-demo"
 )
 
 # DISCLAIMER! This API is a test/demo data provider and 
@@ -166,6 +165,7 @@ async def login_user(user: models.UserLoginModel):
     users = await get_users_from_file()
     if users:
         for usr in users:
+            print(usr)
             if user.username == usr['username'] and user.password == usr['password']:
                 return usr
             else:
@@ -179,7 +179,7 @@ async def get_user_profile():
 
 @app.put("/users/me", response_model = models.UserProfileModel)
 async def update_user_profile(user: models.UserProfileUpdateModel):
-    return user
+    return demo_user
 
 @app.delete("/users/me")
 async def delete_user_profile():
