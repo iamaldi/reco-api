@@ -1,15 +1,15 @@
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import pylast
 
 import models
 import os
+import json
 
 app = FastAPI(
     title = "Reco Demo FastAPI Service",
     description = "WARNING! This is a demo API service for the Reco android application. This service is NOT recommended for production.",
-    version = "v0.1.0-demo",
-    docs_url = None
+    version = "v0.1.0-demo"
 )
 
 # DISCLAIMER! This API is a test/demo data provider and 
@@ -128,24 +128,49 @@ demo_library = [
     }
 ]
 
+# utility functions - INSECURE - USE DATABASE INSTEAD & HASH PASSWORDS
+async def get_users_from_file():
+    users = []
+    try:
+        with open('users.json', 'r') as users_file:
+                users = json.load(users_file)
+        users_file.close()
+        return users
+    except FileNotFoundError:
+        return users
+
+async def save_user_to_file(user: models.UserProfileModel):
+    users = await get_users_from_file()
+    users.extend([dict(user)])
+    with open('users.json', 'w') as users_file:
+        json.dump(users, users_file)
+    users_file.close()
+    return user
+
 # root endpoint
 @app.get("/")
 async def default_endpoint():
-    return "Reco demo backend API service!"
+    return "Reco demo API service!"
 
 # users endpoints
 @app.post("/users/register", response_model = models.UserProfileModel)
 async def register_user(user: models.UserRegisterModel):
-    return {
-        "username": user.username,
-        "display_name": user.display_name,
-        "img_url": "https://cdn.mos.cms.futurecdn.net/VSy6kJDNq2pSXsCzb6cvYF.jpg",
-        "messenger_url" : user.messenger_url
-    }
+    if user not in await get_users_from_file():
+        return await save_user_to_file(user)
+    else:
+        raise HTTPException(status_code = 409, detail = {"error" : "Username is not available!"})
 
 @app.post("/users/login", response_model = models.UserProfileModel)
 async def login_user(user: models.UserLoginModel):
-    return demo_user
+    users = await get_users_from_file()
+    if users:
+        for usr in users:
+            if user.username == usr['username'] and user.password == usr['password']:
+                return usr
+            else:
+                raise HTTPException(status_code = 401, detail = {"error" : "Wrong username or password!"})
+    else:
+        raise HTTPException(status_code = 401, detail = {"error" : "Wrong username or password!"})
 
 @app.get("/users/me", response_model = models.UserProfileModel)
 async def get_user_profile():
@@ -153,12 +178,7 @@ async def get_user_profile():
 
 @app.put("/users/me", response_model = models.UserProfileModel)
 async def update_user_profile(user: models.UserProfileUpdateModel):
-    return {
-        "username": "demo",
-        "display_name": user.display_name,
-        "img_url": user.img_url,
-        "messenger_url" : user.messenger_url
-    }
+    return user
 
 @app.delete("/users/me")
 async def delete_user_profile():
