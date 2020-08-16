@@ -9,7 +9,8 @@ import json
 app = FastAPI(
     title = "Reco Demo FastAPI Service",
     description = "WARNING! This is a demo API service for the Reco android application. This service is NOT recommended for production.",
-    version = "v0.1.0-demo"
+    version = "v0.1.0-demo",
+    docs_url = None
 )
 
 # DISCLAIMER! This API is a test/demo data provider and 
@@ -133,7 +134,7 @@ async def get_users_from_file():
     users = []
     try:
         with open('users.json', 'r') as users_file:
-                users = json.load(users_file)
+                users = json.loads(users_file.read())
         users_file.close()
         return users
     except FileNotFoundError:
@@ -163,13 +164,17 @@ async def register_user(user: models.UserRegisterModel):
 @app.post("/users/login", response_model = models.UserProfileModel)
 async def login_user(user: models.UserLoginModel):
     users = await get_users_from_file()
+    user_logged_in = False
     if users:
         for usr in users:
             print(usr)
             if user.username == usr['username'] and user.password == usr['password']:
+                user_logged_in = True
                 return usr
             else:
-                raise HTTPException(status_code = 401, detail = {"error" : "Wrong username or password!"})
+                user_logged_in = False
+        if not user_logged_in:
+            raise HTTPException(status_code = 401, detail = {"error" : "Wrong username or password!"})
     else:
         raise HTTPException(status_code = 401, detail = {"error" : "Wrong username or password!"})
 
